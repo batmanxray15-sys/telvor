@@ -1,59 +1,60 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /**
- * TELVOR wordmark: a "T" monogram in a rounded prism, electric blue → cyan.
+ * TELVOR brand lockup: the official folded-T emblem followed by the wordmark.
  *
- * `gradientId` must be unique per rendered instance — SVG gradient ids are
- * document-global, so header and footer pass different ids to keep the HTML valid.
+ * The emblem is the real artwork (`/public/images/telvor-logo.png`), keyed off
+ * its dark plate and centred on a transparent square canvas. Keeping the canvas
+ * square and pairing it with `object-contain` means it scales by height alone
+ * and can never be stretched at any breakpoint.
+ *
+ * The visible wordmark carries the name, so the link wrappers in the header and
+ * footer supply the full accessible label. The `alt` still reads "TELVOR" so
+ * the mark is identified on its own if the image is ever rendered in isolation.
  */
+
+type LogoVariant = "header" | "footer";
+
+const markSize: Record<LogoVariant, string> = {
+  // Mobile stays compact; desktop grows slightly without dominating the bar.
+  header: "size-7 sm:size-8 lg:size-9",
+  footer: "size-8 sm:size-9",
+};
+
+const wordmarkSize: Record<LogoVariant, string> = {
+  header:
+    "text-[0.8rem] tracking-[0.26em] sm:text-[0.85rem] sm:tracking-[0.3em] lg:text-[0.95rem] lg:tracking-[0.32em]",
+  footer: "text-[0.9rem] tracking-[0.3em]",
+};
+
 export function Logo({
-  gradientId,
+  variant = "header",
   className,
+  priority = false,
 }: {
-  gradientId: string;
+  variant?: LogoVariant;
   className?: string;
+  /** Set on the header mark so it never pops in after first paint. */
+  priority?: boolean;
 }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <svg
-        aria-hidden="true"
-        focusable="false"
-        viewBox="0 0 32 32"
-        className="size-8 shrink-0"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+      <Image
+        src="/images/telvor-logo.png"
+        alt="TELVOR"
+        width={320}
+        height={320}
+        priority={priority}
+        sizes="(min-width: 1024px) 36px, (min-width: 640px) 32px, 28px"
+        className={cn("shrink-0 select-none object-contain", markSize[variant])}
+      />
+      <span
+        className={cn(
+          "font-display font-semibold uppercase leading-none text-ink",
+          wordmarkSize[variant],
+        )}
       >
-        <defs>
-          <linearGradient
-            id={gradientId}
-            x1="4"
-            y1="2"
-            x2="28"
-            y2="30"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor="#1769FF" />
-            <stop offset="1" stopColor="#00D4FF" />
-          </linearGradient>
-        </defs>
-        <rect
-          x="1"
-          y="1"
-          width="30"
-          height="30"
-          rx="9"
-          stroke={`url(#${gradientId})`}
-          strokeOpacity="0.55"
-          strokeWidth="1.5"
-        />
-        <path
-          d="M9.5 10.75h13M16 10.75v11.5"
-          stroke={`url(#${gradientId})`}
-          strokeWidth="2.4"
-          strokeLinecap="round"
-        />
-      </svg>
-      <span className="font-display text-[0.95rem] font-semibold uppercase leading-none tracking-[0.32em] text-ink">
         Telvor
       </span>
     </span>
