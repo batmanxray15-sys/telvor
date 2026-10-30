@@ -1,26 +1,127 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------------------
+   TELVOR design tokens — Obsidian Black, Electric Blue, Cyan, White.
+   Tailwind v4 is CSS-first: these become utilities (bg-obsidian, text-cyan, ...).
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-obsidian: #05070b;
+  --color-obsidian-soft: #070b12;
+  --color-surface: #0a0f18;
+  --color-electric: #1769ff;
+  --color-cyan: #00d4ff;
+  --color-ink: #ffffff;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-sora), var(--font-geist-sans), ui-sans-serif,
+    system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: var(--color-obsidian);
+    color: rgb(255 255 255 / 0.74);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Long URLs / pasted strings must never widen the layout. `break-word` only
+     engages when a single token cannot fit, so normal typography is unaffected. */
+  a,
+  p,
+  li,
+  dd,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+
+  /* One consistent, high-contrast focus indicator for every interactive element. */
+  :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: rgb(23 105 255 / 0.45);
+    color: var(--color-ink);
+  }
+
+  /* Anchor targets clear the sticky header. */
+  :where(section, div)[id] {
+    scroll-margin-top: 6rem;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Subtle brand wash used behind page content. */
+  .bg-brand-veil {
+    background-image:
+      radial-gradient(60rem 30rem at 15% -10%, rgb(23 105 255 / 0.18), transparent 70%),
+      radial-gradient(45rem 28rem at 85% 0%, rgb(0 212 255 / 0.1), transparent 72%);
+  }
+
+  .text-gradient-brand {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-ink) 0%,
+      var(--color-ink) 42%,
+      #b9d4ff 68%,
+      var(--color-cyan) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Motion preferences are respected at the CSS layer for transitions and
+   keyframe animations. JS-driven animation is gated in components via
+   useReducedMotion(). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
