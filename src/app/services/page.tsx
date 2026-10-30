@@ -3,6 +3,7 @@ import { CtaBand } from "@/components/site/cta-band";
 import { SiteFooter } from "@/components/site/footer";
 import { PageHeader } from "@/components/site/page-header";
 import { Container } from "@/components/ui/container";
+import { SurfaceCard } from "@/components/ui/surface-card";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { pageMetadata } from "@/lib/seo";
@@ -75,12 +76,12 @@ export default function ServicesPage() {
               {engagementNotes.map((note, index) => (
                 <li key={note.title} className="min-w-0">
                   <Reveal delay={index * 0.06} className="h-full">
-                    <div className="h-full rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+                    <SurfaceCard interactive={false} className="flex h-full flex-col">
                       <h3 className="text-base font-semibold text-ink">{note.title}</h3>
                       <p className="mt-2 text-sm leading-relaxed text-white/60">
                         {note.description}
                       </p>
-                    </div>
+                    </SurfaceCard>
                   </Reveal>
                 </li>
               ))}

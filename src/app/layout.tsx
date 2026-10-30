@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { ScrollProgress } from "@/components/motion/scroll-progress";
 import { SiteHeader } from "@/components/site/header";
 import { site, siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -91,6 +92,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to main content
         </a>
+
+        <ScrollProgress />
 
         <SiteHeader />
 

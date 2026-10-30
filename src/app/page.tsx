@@ -4,8 +4,8 @@ import { Manifesto } from "@/components/home/manifesto";
 import { Signature } from "@/components/home/signature";
 import { CapabilityLedger, LedgerFootnote } from "@/components/home/capability-ledger";
 import { ProcessTimeline } from "@/components/home/process-timeline";
-import { ScrollProgress } from "@/components/motion/scroll-progress";
 import { CtaBand } from "@/components/site/cta-band";
+import { SectionGlow } from "@/components/site/section-glow";
 import { SiteFooter } from "@/components/site/footer";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
@@ -25,8 +25,6 @@ export const metadata = pageMetadata({
 export default function HomePage() {
   return (
     <>
-      <ScrollProgress />
-
       <main id="main" className="flex-1">
         <Hero />
 
@@ -40,25 +38,27 @@ export default function HomePage() {
           className="border-t border-white/[0.06] py-20 sm:py-24"
         >
           <Container>
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-              <SectionHeading
-                eyebrow="Capabilities"
-                title={
-                  <span id="capabilities-heading">
-                    Everything on the page has a job to do.
-                  </span>
-                }
-                description="Six disciplines, applied together. Each one is a constraint the others have to respect — which is why the result holds up long after launch."
-              />
-              <ButtonLink
-                href="/services"
-                variant="secondary"
-                className="shrink-0 self-start sm:self-auto"
-              >
-                All services
-                <ArrowRight aria-hidden="true" className="size-4" />
-              </ButtonLink>
-            </div>
+            <Reveal>
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                <SectionHeading
+                  eyebrow="Capabilities"
+                  title={
+                    <span id="capabilities-heading">
+                      Everything on the page has a job to do.
+                    </span>
+                  }
+                  description="Six disciplines, applied together. Each one is a constraint the others have to respect — which is why the result holds up long after launch."
+                />
+                <ButtonLink
+                  href="/services"
+                  variant="secondary"
+                  className="shrink-0 self-start sm:self-auto"
+                >
+                  All services
+                  <ArrowRight aria-hidden="true" className="size-4" />
+                </ButtonLink>
+              </div>
+            </Reveal>
 
             <div className="mt-12">
               <CapabilityLedger />
@@ -107,24 +107,28 @@ export default function HomePage() {
         <section
           id="process"
           aria-labelledby="process-heading"
-          className="border-t border-white/[0.06] py-20 sm:py-24"
+          className="relative isolate border-t border-white/[0.06] py-20 sm:py-24"
         >
+          <SectionGlow from="right" tone="cyan" />
+
           <Container>
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-              <SectionHeading
-                eyebrow="Process"
-                title={<span id="process-heading">Four stages, no mystery.</span>}
-                description="A clear sequence from brief to launch, so you always know what is happening and what comes next."
-              />
-              <ButtonLink
-                href="/process"
-                variant="secondary"
-                className="shrink-0 self-start sm:self-auto"
-              >
-                See the process
-                <ArrowRight aria-hidden="true" className="size-4" />
-              </ButtonLink>
-            </div>
+            <Reveal>
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                <SectionHeading
+                  eyebrow="Process"
+                  title={<span id="process-heading">Four stages, no mystery.</span>}
+                  description="A clear sequence from brief to launch, so you always know what is happening and what comes next."
+                />
+                <ButtonLink
+                  href="/process"
+                  variant="secondary"
+                  className="shrink-0 self-start sm:self-auto"
+                >
+                  See the process
+                  <ArrowRight aria-hidden="true" className="size-4" />
+                </ButtonLink>
+              </div>
+            </Reveal>
 
             <ProcessTimeline />
           </Container>

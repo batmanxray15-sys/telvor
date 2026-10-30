@@ -1,3 +1,4 @@
+import { SectionGlow } from "@/components/site/section-glow";
 import { LineReveal } from "@/components/ui/line-reveal";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -15,8 +16,10 @@ export function Manifesto() {
   return (
     <section
       aria-labelledby="manifesto-heading"
-      className="relative border-t border-white/[0.06] py-20 sm:py-28 lg:py-32"
+      className="relative isolate border-t border-white/[0.06] py-20 sm:py-28 lg:py-32"
     >
+      <SectionGlow from="top" />
+
       <Container>
         <Reveal>
           <Eyebrow>Introduction</Eyebrow>
