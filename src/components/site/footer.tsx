@@ -25,7 +25,7 @@ export function SiteFooter({ contextTitle, contextLinks, note }: SiteFooterProps
               aria-label="TELVOR — go to the homepage"
               className="inline-flex rounded-lg py-1 transition-opacity duration-200 hover:opacity-85"
             >
-              <Logo gradientId="telvor-mark-footer" />
+              <Logo variant="footer" />
             </Link>
             <p className="mt-4 font-display text-lg font-medium text-ink">
               {site.tagline}

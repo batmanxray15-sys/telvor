@@ -84,7 +84,7 @@ export function SiteHeader() {
             className="inline-flex shrink-0 items-center rounded-lg py-2 transition-opacity duration-200 hover:opacity-85"
             onClick={closeMenu}
           >
-            <Logo gradientId="telvor-mark-header" />
+            <Logo priority />
           </Link>
 
           <nav aria-label="Primary" className="hidden lg:block">
