@@ -1,38 +1,51 @@
 "use client";
 
-import { useReducedMotion } from "motion/react";
-import { TextEffect } from "@/components/motion/text-effect";
-
-const titleClassName =
-  "text-gradient-brand text-balance text-[clamp(2.8rem,11vw,6rem)] font-semibold leading-[0.94] tracking-[-0.045em]";
+import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
+import { MOTION_EASE } from "@/lib/motion";
 
 /**
- * Word-by-word reveal of the brand line (Motion Primitives TextEffect).
+ * Cinematic statement headline.
  *
- * `per="word"` rather than `char`: the skill's motion data explicitly warns
- * against character-splitting long copy (DOM size, and split text that never
- * reverts is an accessibility hazard). Word mode also emits an `sr-only` copy of
- * the full sentence, so the headline is announced once, intact.
+ * Typography: tighter leading and a `clamp()` that lands near 100px on large
+ * screens, so the line reads as a composed statement rather than body copy.
+ *
+ * Line breaks are explicit instead of left to `text-balance`: two stacked lines
+ * below `md`, one full-width line from `md` up. Leaving it to the wrapper alone
+ * produced an accidental break near 640–700px, where the clamp is already large
+ * but the container is not yet wide enough.
+ *
+ * The gradient lives on the animated `<h1>` itself and nothing inside it is ever
+ * transformed. `background-clip: text` paints an ancestor's background through
+ * descendant glyphs, so wrapping words in transformed spans makes the type
+ * disappear — the classic way this effect breaks. Animating the gradient element
+ * itself is safe: its own background and text move together as one layer.
+ *
+ * The entrance is gated on `useInView` rather than mount. A mount-triggered
+ * reveal fires at hydration even when the hero is off-screen — which is what
+ * happens on desktop reloads that restore a mid-page scroll position — so the
+ * animation has silently finished before the section is ever seen.
  */
-export function HeroTitle() {
-  const reduceMotion = useReducedMotion();
+const titleClassName =
+  "text-gradient-brand text-[clamp(2.85rem,10vw,6.25rem)] font-semibold leading-[0.9] tracking-[-0.05em]";
 
-  if (reduceMotion) {
-    return <h1 className={titleClassName}>Built to Purpose.</h1>;
-  }
+export function HeroTitle() {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
+  const inView = useInView(ref, { once: true, amount: 0.2 });
+  const show = inView || reduceMotion;
 
   return (
-    <TextEffect
-      as="h1"
-      per="word"
-      preset="fade-in-blur"
-      className={titleClassName}
-      delay={0.05}
-      speedReveal={1.15}
-      speedSegment={0.9}
-      segmentWrapperClassName="inline-block"
-    >
-      Built to Purpose.
-    </TextEffect>
+    <div ref={ref} data-reveal="">
+      <motion.h1
+        className={titleClassName}
+        initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+        animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+        transition={{ duration: reduceMotion ? 0 : 0.9, ease: MOTION_EASE }}
+      >
+        <span className="block md:inline">Built to</span>{" "}
+        <span className="block md:inline">Purpose.</span>
+      </motion.h1>
+    </div>
   );
 }

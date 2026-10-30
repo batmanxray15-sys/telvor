@@ -94,6 +94,19 @@
       radial-gradient(45rem 28rem at 85% 0%, rgb(0 212 255 / 0.1), transparent 72%);
   }
 
+  /* Slow ambient drift for the hero lighting. Transform-only, so it stays on
+     the compositor. The `prefers-reduced-motion` block at the bottom of this
+     file collapses the duration, leaving it static for anyone who asked. */
+  .animate-ambient-drift {
+    animation: telvor-ambient-drift 26s ease-in-out infinite;
+  }
+
+  /* Scroll cue: a 4px nudge, deliberately small so it reads as an invitation
+     rather than a bouncing arrow. */
+  .animate-scroll-nudge {
+    animation: telvor-scroll-nudge 2.4s ease-in-out infinite;
+  }
+
   .text-gradient-brand {
     background-image: linear-gradient(
       100deg,
@@ -105,6 +118,30 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+}
+
+/* Keyframes used by the hero. Defined at top level so they are not stripped
+   when the utility that references them sits in a lower layer. */
+@keyframes telvor-ambient-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -2.5%, 0) scale(1.04);
+  }
+}
+
+@keyframes telvor-scroll-nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
   }
 }
 
