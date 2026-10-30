@@ -4,11 +4,15 @@ import { useReducedMotion } from "motion/react";
 import { TextEffect } from "@/components/motion/text-effect";
 
 const titleClassName =
-  "text-gradient-brand text-balance text-[clamp(2.6rem,9.5vw,4.75rem)] font-semibold leading-[0.98] tracking-[-0.04em]";
+  "text-gradient-brand text-balance text-[clamp(2.8rem,11vw,6rem)] font-semibold leading-[0.94] tracking-[-0.045em]";
 
 /**
  * Word-by-word reveal of the brand line (Motion Primitives TextEffect).
- * Reduced motion renders the finished headline immediately.
+ *
+ * `per="word"` rather than `char`: the skill's motion data explicitly warns
+ * against character-splitting long copy (DOM size, and split text that never
+ * reverts is an accessibility hazard). Word mode also emits an `sr-only` copy of
+ * the full sentence, so the headline is announced once, intact.
  */
 export function HeroTitle() {
   const reduceMotion = useReducedMotion();
@@ -21,10 +25,11 @@ export function HeroTitle() {
     <TextEffect
       as="h1"
       per="word"
-      preset="fade"
+      preset="fade-in-blur"
       className={titleClassName}
-      delay={0.06}
-      speedReveal={1.1}
+      delay={0.05}
+      speedReveal={1.15}
+      speedSegment={0.9}
       segmentWrapperClassName="inline-block"
     >
       Built to Purpose.
