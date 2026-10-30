@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="TELVOR">
+  <defs>
+    <linearGradient id="telvor-tile" x1="3" y1="1" x2="29" y2="31" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1769FF"/>
+      <stop offset="1" stop-color="#00D4FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="#05070B"/>
+  <rect x="1" y="1" width="30" height="30" rx="7.5" fill="none" stroke="url(#telvor-tile)" stroke-opacity="0.6" stroke-width="1.6"/>
+  <path d="M9.25 10.5h13.5M16 10.5v11.75" fill="none" stroke="url(#telvor-tile)" stroke-width="2.6" stroke-linecap="round"/>
+</svg>
