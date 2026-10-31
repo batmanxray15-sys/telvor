@@ -1,8 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
-import { MOTION_EASE } from "@/lib/motion";
+import { motion, type Variants } from "motion/react";
 
 /**
  * Cinematic statement headline.
@@ -19,33 +17,25 @@ import { MOTION_EASE } from "@/lib/motion";
  * transformed. `background-clip: text` paints an ancestor's background through
  * descendant glyphs, so wrapping words in transformed spans makes the type
  * disappear — the classic way this effect breaks. Animating the gradient element
- * itself is safe: its own background and text move together as one layer.
+ * itself is safe: its own background and text move together as one layer. That
+ * is also why the headline does not word-stagger: any per-word or per-line
+ * stagger would require one gradient per element and a re-tuned sweep. The
+ * headline rises as a single composed unit, and the stagger comes from the
+ * surrounding sequence.
  *
- * The entrance is gated on `useInView` rather than mount. A mount-triggered
- * reveal fires at hydration even when the hero is off-screen — which is what
- * happens on desktop reloads that restore a mid-page scroll position — so the
- * animation has silently finished before the section is ever seen.
+ * The reveal itself is owned by the parent (`Hero`): it passes the variant this
+ * heading should follow, and gates the whole run on the section entering view
+ * rather than on mount, so a scroll-restored reload doesn't burn the animation
+ * off-screen.
  */
 const titleClassName =
   "text-gradient-brand text-[clamp(2.85rem,10vw,6.25rem)] font-semibold leading-[0.9] tracking-[-0.05em]";
 
-export function HeroTitle() {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
-  const inView = useInView(ref, { once: true, amount: 0.2 });
-  const show = inView || reduceMotion;
-
+export function HeroTitle({ variants }: { variants: Variants }) {
   return (
-    <div ref={ref} data-reveal="">
-      <motion.h1
-        className={titleClassName}
-        initial={reduceMotion ? false : { opacity: 0, y: 28 }}
-        animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-        transition={{ duration: reduceMotion ? 0 : 0.9, ease: MOTION_EASE }}
-      >
-        <span className="block md:inline">Built to</span>{" "}
-        <span className="block md:inline">Purpose.</span>
-      </motion.h1>
-    </div>
+    <motion.h1 variants={variants} className={titleClassName}>
+      <span className="block md:inline">Built to</span>{" "}
+      <span className="block md:inline">Purpose.</span>
+    </motion.h1>
   );
 }

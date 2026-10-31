@@ -101,10 +101,33 @@
     animation: telvor-ambient-drift 26s ease-in-out infinite;
   }
 
-  /* Scroll cue: a 4px nudge, deliberately small so it reads as an invitation
-     rather than a bouncing arrow. */
-  .animate-scroll-nudge {
-    animation: telvor-scroll-nudge 2.4s ease-in-out infinite;
+  /* Scroll cue: a 4px marker travelling down a hairline. Slow enough (2.8s)
+     to read as a breath rather than a blinking prompt. */
+  .animate-scroll-travel {
+    animation: telvor-scroll-travel 2.8s var(--ease-brand) infinite;
+  }
+
+  /* Gentle entrance for the sticky header. Applied once on load; the global
+     `prefers-reduced-motion` rule collapses it to its final state. */
+  .animate-header-in {
+    animation: telvor-header-in 0.55s var(--ease-brand) both;
+  }
+
+  /* Cinematic veil over the hero footage. CSS rather than JS on purpose: it is
+     the one animation that must complete even if the bundle never runs, and the
+     reduced-motion rule above already neutralises it. */
+  .animate-veil-in {
+    animation: telvor-veil-in 1.2s var(--ease-brand) 0.05s both;
+  }
+
+  /* Hero media reveal. Animates *from* transparent, so the element's base state
+     is fully visible: if the animation never runs — blocked stylesheet, exotic
+     browser, a pause on the compositor — the footage shows anyway. Never gate
+     this on a JS event.
+     The 6% settle is the whole "cinematic scale" budget for the video; the
+     scroll-linked parallax on the parent layer is separate and composes with it. */
+  .animate-media-in {
+    animation: telvor-media-in 2.2s var(--ease-brand) both;
   }
 
   .text-gradient-brand {
@@ -133,15 +156,49 @@
   }
 }
 
-@keyframes telvor-scroll-nudge {
-  0%,
-  100% {
+@keyframes telvor-scroll-travel {
+  0% {
     transform: translateY(0);
-    opacity: 0.65;
+    opacity: 0;
   }
-  50% {
-    transform: translateY(4px);
+  20%,
+  80% {
     opacity: 1;
+  }
+  100% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+}
+
+@keyframes telvor-header-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes telvor-veil-in {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes telvor-media-in {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 

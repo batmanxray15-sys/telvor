@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/site/logo";
 import { ButtonLink, buttonStyles } from "@/components/ui/button";
@@ -12,11 +12,12 @@ import { ProgressiveBlur } from "@/components/motion/progressive-blur";
 import { MOTION_EASE } from "@/lib/motion";
 import { isActivePath, primaryNav } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
 
   const panelId = useId();
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -74,7 +75,7 @@ export function SiteHeader() {
   return (
     <header
       ref={headerRef}
-      className="sticky top-0 z-50 border-b border-white/10 bg-obsidian/85 backdrop-blur-xl"
+      className="sticky top-0 z-50 animate-header-in border-b border-white/10 bg-obsidian/85 backdrop-blur-xl"
     >
       <Container>
         <div className="flex h-16 items-center justify-between gap-3">

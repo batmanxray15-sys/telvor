@@ -1,9 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useReducedMotion } from "motion/react";
 import { BorderTrail } from "@/components/motion/border-trail";
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
 /**
  * A surface with an animated border highlight (Motion Primitives).
@@ -16,7 +16,7 @@ export function TrailCard({
   children: ReactNode;
   className?: string;
 }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
 
   return (
     <div
