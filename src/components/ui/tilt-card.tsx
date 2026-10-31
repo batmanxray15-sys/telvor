@@ -1,9 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useReducedMotion } from "motion/react";
 import { Tilt } from "@/components/motion/tilt";
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
 /**
  * Pointer-driven 3D tilt (Motion Primitives). Disabled entirely under
@@ -18,7 +18,7 @@ export function TiltCard({
   className?: string;
   rotationFactor?: number;
 }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
 
   if (reduceMotion) {
     return <div className={cn("h-full", className)}>{children}</div>;

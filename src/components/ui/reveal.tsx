@@ -1,9 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useReducedMotion } from "motion/react";
 import { InView } from "@/components/motion/in-view";
 import { MOTION_DURATION, MOTION_EASE } from "@/lib/motion";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
 type RevealProps = {
   children: ReactNode;
@@ -20,7 +20,7 @@ type RevealProps = {
  * final state when JavaScript is unavailable, so content is never invisible.
  */
 export function Reveal({ children, className, delay = 0 }: RevealProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
 
   const variants = reduceMotion
     ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }

@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
+import { motion, useScroll, useSpring } from "motion/react";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
 /**
  * Hairline reading-progress indicator pinned to the top of the viewport.
@@ -12,7 +13,7 @@ import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
  */
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 140,
     damping: 30,
